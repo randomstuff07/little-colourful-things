@@ -24,7 +24,9 @@ Installing dependencies
 
 cell_array = []
 cluster_array = []
-IMG_SAVE_PATH_TEST = "/Users/aaditmahajan/Documents/Summer_Internship/dataset/Picture_4.jpg"
+curr_path = os.getcwd()
+
+IMG_SAVE_PATH_TEST = os.path.join(curr_path, "dataset/Picture_4.jpg")
 input_image = PIL.Image.open(IMG_SAVE_PATH_TEST)
 input_image = input_image.convert('RGB')
 img = np.asarray(input_image, dtype='uint8')
@@ -60,7 +62,7 @@ for cell in cell_array:
 Below this part is the execution of the error_type classification
 '''
 
-image = cv2.imread('/Users/aaditmahajan/Documents/segregation_data/mi_pssc/0327-0338.png')
+image = cell_array[0]
 image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
 spores_red = red_spores(image)
