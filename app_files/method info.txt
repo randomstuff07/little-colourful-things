@@ -1,0 +1,40 @@
+Description of functions defined in the py files in this folder. 
+
+centerfinder.py file methods:
+
+1. red_spores(image)
+   finds the red spores, returns an image with red spores isolated from the raw image
+   returns isolated red spores image
+
+2. blue_spores(image)
+   finds the blue spores, returns an image with blue spores isolated from the raw image
+   returns isolated blue spores image
+
+3. pink_spores(image)
+   finds the pink spores, returns an image with pink spores isolated from the raw image
+   returns pink spores image
+
+4. find_centers(image, spores):
+   finds the centres of the spore image passed to it
+   uses watershed segmentation
+   returns an array of coordinates (x, y) of the centres of the spore image passed
+
+seq_finder.py file methods 
+
+1. process_centers(centers, img_dims)
+   uses the centre coordinates and image dimensions to assign position-wise scores to each centre
+   returns scores
+
+2. init_seq(image, red_centers, pink_centers, blue_centers)
+   finds the unsorted sequence based on how many spores of each colour are present. 
+   passes an array of alphabets based on which colour is present and a string of the colour-coded sequence
+
+3. sort/_seq(seq_string, scores, sequence)
+   finds the correct order of the spores in the cell using the scores assigned to each spore centre
+   returns a sorted string sequence and the corresponding sorted string sequence
+
+4. find_type(sequence, seq_string)
+   finds the type of error based on a key (credits: MN Lab) for the error types and the sequences of the colours of the spores in each error type. 
+   returns a string containing the type of error
+
+def

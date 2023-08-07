@@ -1,0 +1,7 @@
+matplotlib
+numpy
+torchvision
+opencv-python
+torch
+imutils
+cuda
