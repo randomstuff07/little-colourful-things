@@ -6,15 +6,14 @@ _centerfinder.py_ file methods:
 
 1. red_spores(image)   
    finds the red spores, returns an image with red spores isolated from the raw image
-   returns isolated red spores image
+
 
 2. blue_spores(image)  
    finds the blue spores, returns an image with blue spores isolated from the raw image
-   returns isolated blue spores image
+
 
 3. pink_spores(image)  
    finds the pink spores, returns an image with pink spores isolated from the raw image
-   returns pink spores image
 
 4. find_centers(image, spores):  
    finds the centres of the spore image passed to it
