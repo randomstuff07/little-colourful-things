@@ -3,9 +3,15 @@ import subprocess
 import matplotlib.pyplot as plt
 import numpy as np
 
-
 from segment_anything import sam_model_registry, SamAutomaticMaskGenerator, SamPredictor
-device = 'mps' if torch.backends.mps.is_available() else 'cpu'
+
+if torch.backends.mps.is_available():
+    device = 'mps'
+elif torch.cuda.is_available():
+    device = 'cuda'
+else:
+    device = 'cpu'
+
 SAM_CHKPT_PATH = '/Users/aaditmahajan/Documents/Summer_Internship/sam_vit_h_4b8939.pth'
 model_type = 'vit_h'
 sam = sam_model_registry[model_type](checkpoint=SAM_CHKPT_PATH)
@@ -14,19 +20,19 @@ sam.to(device=device)
 init_mask_gen = SamAutomaticMaskGenerator(
     model=sam,
     points_per_side = 12,
-    pred_iou_thresh = 0.9,
-    stability_score_thresh=0.92,
-    crop_n_layers=1,
-    min_mask_region_area=1000,
+    pred_iou_thresh = 0.8,
+    stability_score_thresh=0.8,
+    crop_n_layers=0,
+    min_mask_region_area=1800,
     crop_n_points_downscale_factor=2
 )
 ind_cell_mask_gen = SamAutomaticMaskGenerator(
     model=sam,
     points_per_side = 7,
-    pred_iou_thresh = 0.8,
-    stability_score_thresh=0.8,
-    crop_n_layers=1,
-    min_mask_region_area=4000,
+    pred_iou_thresh = 0.88,
+    stability_score_thresh=0.88,
+    crop_n_layers=0,
+    min_mask_region_area=1800,
     crop_n_points_downscale_factor=2
 )
 
@@ -47,6 +53,7 @@ def show_anns(anns):
         ax.imshow(np.dstack((img, m*0.35)))
 
 def generate_mask(image, generator):
+    torch.set_default_dtype(torch.float32)
     masks = generator.generate(np.asarray(image, dtype='uint8'))
     return masks
 
@@ -62,6 +69,7 @@ def show_mask(image, masks):
     plt.show()
 
 def separate_clusters(masks, raw):
+
     individual_cells = []
     clusters = []
     cropped_rois = []
@@ -71,23 +79,38 @@ def separate_clusters(masks, raw):
         y=int(masks[i]['bbox'][1])
         a=int(masks[i]['bbox'][2])
         b=int(masks[i]['bbox'][3])
-        cropped_im = raw[y:y+b, x:x+a, :]
+        cropped_im = np.array(raw[y:y+b, x:x+a, :])
         cropped_rois.append(cropped_im)
         cropped_mask = masks[i]['segmentation'][y:y+b, x:x+a]
-        plt.imshow(cropped_im)
-        plt.show()
+        # if a > 90 | b > 90:
+        #   continue
         area = masks[i]['area']
-        if area in range(2000, 3000):
+        cropped_im[cropped_mask==False] = [0, 0, 0]
+        if area in range(1000, 3100):
+          # if masks[i]['predicted_iou'] < 1 and masks[i]['predicted_iou'] >= 0.92:
             individual_cells.append(cropped_im)
-        elif area > 3000:
+            # plt.subplot(121)
+            # plt.title('cropped image (single cell)')
+            # plt.imshow(cropped_im)
+            # plt.subplot(122)
+            # plt.imshow(cropped_mask)
+            # plt.show()
+            # print('Predicted IoU: ', masks[i]['predicted_iou'])
+            # print('Stability score: ', masks[i]['stability_score'])
+            # print('crop box: ', masks[i]['crop_box'], 'Bounding box: ', masks[i]['bbox'])
+            # print('Point Coordinates: ', masks[i]['point_coords'])
+        elif area > 3100:
             clusters.append(cropped_im)
         else:
             continue
     return individual_cells, clusters
 
 def process_cluster(clusters):
+    print('processing cluster...')
     individual_cells = []
+
     for cluster in clusters:
+        print(cluster.shape)
         mask_cluster = generate_mask(np.asarray(cluster, dtype='uint8'), ind_cell_mask_gen)
         show_mask(cluster, mask_cluster)
         for j in range(len(mask_cluster)):
@@ -95,14 +118,19 @@ def process_cluster(clusters):
             y=int(mask_cluster[j]['bbox'][1])
             a=int(mask_cluster[j]['bbox'][2])
             b=int(mask_cluster[j]['bbox'][3])
-            cropped_im = cluster[y:y+b, x:x+a, :]
-            area = mask_cluster[j]['area']
+            cropped_im = np.array(cluster[y:y+b, x:x+a, :])
+            area = b*a
 
+            cropped_im[mask_cluster==False] = [0, 0, 0]
             if area in range(1500, 3000):
+            #   if mask_cluster[j]['predicted_iou'] < 1 and mask_cluster[j]['predicted_iou'] >= 0.9:
                 individual_cells.append(cropped_im)
-                plt.imshow(cropped_im)
-                plt.show()
-                print('added to individual cells array....')
+                # plt.imshow(cropped_im)
+                # plt.show()
+                # print('Predicted IoU: ', mask_cluster[j]['predicted_iou'])
+                # print('Stability score: ', mask_cluster[j]['stability_score'])
+                # print('crop box: ', mask_cluster[j]['crop_box'], 'Bounding box: ', mask_cluster[j]['bbox'])
+                # print('Point Coordinates: ', mask_cluster[j]['point_coords'])
+                # print('added to individual cells array....')
 
     return individual_cells
-
