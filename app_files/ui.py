@@ -152,6 +152,7 @@ def get_file(page: Page):
         )    
     get_directory_dialog = FilePicker(on_result=get_directory_result)
     directory_path = Text()
+    FILE_PATH = directory_path
 
     # hide all dialogs in overlay
     page.overlay.extend([get_directory_dialog])
