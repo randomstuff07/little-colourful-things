@@ -18,7 +18,7 @@ from flet.matplotlib_chart import MatplotlibChart
 import matplotlib
 from flet import (
     Row,
-    Text,
+    Text
 )
 
 matplotlib.use('svg')
@@ -79,10 +79,15 @@ def disp_stats(page: ft.Page):
         )
     )
 
-    
+# make a loading notification
+
 def get_file(page: Page):
+    
     FILE_PATH = ''
     EXEC_FLAG = ''
+    lbl = ft.Text()
+    hclbl = 'High Contrast'
+    lclbl = 'Low Contrast'
     # Pick files dialog
     page.theme_mode = ft.ThemeMode.DARK
     page.padding = 40
@@ -95,42 +100,54 @@ def get_file(page: Page):
         height=175,
         fit=ft.ImageFit.CONTAIN,
     )
-    path_notif = ft.Text()
-    page.add(path_notif)
-    txt =ft.TextField(label="For e.g.: 'D://Documents//....'")
-    def save_file_btn(e):
-        path = txt.value
-        if os.path.exists(path):
-            FILE_PATH = txt.value
-            path_notif = ft.Text('File path saved!')
-            page.update()
-        else:
-            path_notif = ft.Text('Couldn\'t find file path! Enter correct file path.')
-            page.update()
-    
-    def on_keyboard(e: ft.KeyboardEvent):
-        if e.key == 'Enter':
-            save_file_btn()
 
     def open_readme(e):
         programName = "notepad.exe"
         fileName = "README.md"
         sp.Popen([programName, fileName])
-        
-    def get_exec_flag(flag):
-        EXEC_FLAG = flag
+
+    def hc_btn_click(e):
+        lbl.value = f'Processing settings: {hclbl}'
+        EXEC_FLAG = 'high'
+        page.update()
     
-    page.on_keyboard_event = on_keyboard
+    def lc_btn_click(e):
+        lbl.value = f'Processing settings: {lclbl}'
+        EXEC_FLAG = 'low'
+        page.update()
 
-    page.title = 'Little Colorful Things v1.0'
-
-    lbl1 = ft.Text('Enter File Path of Images (.png, .jpg files):')
-    path_status = ft.Text()
     # Open directory dialog
     def get_directory_result(e: FilePickerResultEvent):
         directory_path.value = e.path if e.path else "Cancelled!"
         directory_path.update()
-        
+
+    def close_dlg(e):
+        dlg.open = False
+        page.update()
+
+    def return_path(e):
+        page.dialog = dlg
+        dlg.open = True
+        if FILE_PATH != '':
+            dlg.title = ft.Text('Success!')
+            dlg.content = ft.Text('Processing Started!')
+            page.update()
+            return FILE_PATH, EXEC_FLAG
+        else:
+            dlg.title = ft.Text('File Path Error')
+            dlg.content = ft.Text('File path not specified. Choose a file path!')
+            page.update()
+    
+    title_text = ft.Text()
+    page.title = 'Little Colorful Things v1.0'
+    
+    dlg = ft.AlertDialog(
+            title = title_text,
+
+            actions=[
+                ft.TextButton('OK', on_click = close_dlg)
+            ]
+        )    
     get_directory_dialog = FilePicker(on_result=get_directory_result)
     directory_path = Text()
 
@@ -147,21 +164,11 @@ def get_file(page: Page):
             spacing=350, alignment=ft.MainAxisAlignment.CENTER
        ),
         Row(),
-        Row([lbl1]),
-        Row(),
-        Row(
-            [txt, ElevatedButton(
-                    'Save File Path', 
-                    icon = icons.SAVE,
-                    on_click=save_file_btn,
-            ),
-            ]
-        ),
-        Row([Text('Or choose a folder from This PC')]),
+        Row([Text('Choose a folder from This PC')]),
         Row([ElevatedButton(
                     "Open directory",
-                    icon=icons.FOLDER_OPEN,
-                    on_click=lambda _: get_directory_dialog.get_directory_path(),
+                    icon = icons.FOLDER_OPEN,
+                    on_click = lambda _: get_directory_dialog.get_directory_path(),
                     disabled=page.web,
                 ),
                 directory_path,
@@ -175,16 +182,28 @@ def get_file(page: Page):
             [
                 ElevatedButton(
                     "High Contrast",
-                    on_click=get_exec_flag('high'),
+                    on_click=hc_btn_click
                 ),
                 ElevatedButton(
                     "Low Contrast",
-                    on_click=get_exec_flag('low')
+                    on_click=lc_btn_click
                 ), 
             ]
+        ),
+        Row(
+            [lbl]
+        ),
+        Row(
+            [
+                ElevatedButton(
+                    "Start Processing",
+                    on_click = return_path
+                )
+            ], alignment=ft.MainAxisAlignment.END
         )
     )
     page.update()
-    return FILE_PATH, EXEC_FLAG
+
+    
 
 flet.app(target=get_file)
