@@ -104,7 +104,9 @@ def get_file(page: Page):
     def open_readme(e):
         programName = "notepad.exe"
         fileName = "README.md"
+        os.chdir('..')
         sp.Popen([programName, fileName])
+        os.chdir('app_files')
 
     def hc_btn_click(e):
         lbl.value = f'Processing settings: {hclbl}'
