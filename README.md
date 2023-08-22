@@ -127,9 +127,8 @@ The choice between high contrast and low contrast images has to be made wisely d
 High contrast images can be considered those with low background light and fluorescent light is bright.   
 Low contrast images can be considered those with a lot of background noise/bright background light and fluorescent light from spores being relatively harder to distinguish from background.    
 
+# References
 
- 
-
-
-
+1. Kirillov, Alexander & Mintun, Eric & Ravi, Nikhila & Mao, Hanzi & Rolland, Chloe & Gustafson, Laura & Xiao, Tete & Whitehead, Spencer & Berg, Alexander & Lo, Wan-Yen & Dollár, Piotr & Girshick, Ross. (2023). Segment Anything. 
+2. Bradski, G. & Kaehler, A., 2008. Learning OpenCV: Computer vision with the OpenCV library, "O&#x27;Reilly Media, Inc."
 
