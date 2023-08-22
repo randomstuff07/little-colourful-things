@@ -1,9 +1,9 @@
 import torch
-import subprocess
 import matplotlib.pyplot as plt
 import numpy as np
+import os
 
-from segment_anything import sam_model_registry, SamAutomaticMaskGenerator, SamPredictor
+from segment_anything import sam_model_registry, SamAutomaticMaskGenerator
 
 if torch.backends.mps.is_available():
     device = 'mps'
@@ -12,7 +12,10 @@ elif torch.cuda.is_available():
 else:
     device = 'cpu'
 
-SAM_CHKPT_PATH = '/Users/aaditmahajan/Documents/Summer_Internship/sam_vit_h_4b8939.pth'
+cwd = os.getcwd()
+chkpt_file_name = 'sam_vit_h_4b8939.pth'
+SAM_CHKPT_PATH=os.path.join(cwd, chkpt_file_name)
+# SAM_CHKPT_PATH = '/Users/aaditmahajan/Documents/Summer_Internship/sam_vit_h_4b8939.pth'
 model_type = 'vit_h'
 sam = sam_model_registry[model_type](checkpoint=SAM_CHKPT_PATH)
 sam.to(device=device)
