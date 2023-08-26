@@ -96,26 +96,26 @@ SAM Mask Generator config:
 Following are the parameters for the segment anything automatic mask generator.
 ***DO NOT CHANGE THESE***:
 
-init_mask_gen = SamAutomaticMaskGenerator(
-    model=sam,
-    points_per_side = 12,
-    pred_iou_thresh = 0.8,
-    stability_score_thresh=0.8,
-    crop_n_layers=0,
-    min_mask_region_area=1800,
-    crop_n_points_downscale_factor=2
+init_mask_gen = SamAutomaticMaskGenerator(    
+    model=sam,     
+    points_per_side = 12,      
+    pred_iou_thresh = 0.8,     
+    stability_score_thresh=0.8,     
+    crop_n_layers=0,      
+    min_mask_region_area=1800,       
+    crop_n_points_downscale_factor=2       
 )
 
 this is the configuration for the constants for generating the masks initially for the whole frame. 
 
-ind_cell_mask_gen = SamAutomaticMaskGenerator(
-    model=sam,
-    points_per_side = 7,
-    pred_iou_thresh = 0.88,
-    stability_score_thresh=0.88,
-    crop_n_layers=0,
-    min_mask_region_area=1800,
-    crop_n_points_downscale_factor=2
+ind_cell_mask_gen = SamAutomaticMaskGenerator(     
+    model=sam,     
+    points_per_side = 7,    
+    pred_iou_thresh = 0.88,    
+    stability_score_thresh=0.88,    
+    crop_n_layers=0,     
+    min_mask_region_area=1800,     
+    crop_n_points_downscale_factor=2     
 )
 
 This is the configuration for the constants for generating the masks from the clusters cut out by the initial mask generator and identifies individual cells from the clusters. 
