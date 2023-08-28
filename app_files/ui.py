@@ -23,9 +23,7 @@ from flet import (
 
 matplotlib.use('svg')
 
-# dummy init (remove once done testing)
-
-def fetch_stats(ct, ec):
+def fetch_stats(ct, ec):        # driver function for display stats
     global cats
     global err_cnt
 
@@ -34,7 +32,7 @@ def fetch_stats(ct, ec):
     
     ft.app(target=disp_stats)
 
-def disp_stats(page: ft.Page):
+def disp_stats(page: ft.Page):   # display stats function 
     
     fig, ax = plt.subplots()
     
@@ -51,6 +49,8 @@ def disp_stats(page: ft.Page):
             alignment=ft.MainAxisAlignment.CENTER
         ),
         MatplotlibChart(fig, expand=True),
+
+        #adding all details to the chart for displaying the stats 
 
         ft.DataTable(
             columns = [
@@ -79,12 +79,11 @@ def disp_stats(page: ft.Page):
         )
     )
 
-# make a loading notification
+def get_file(page: Page):   # gets the file path from the ui.
 
-def get_file(page: Page):
-    
     FILE_PATH = ''
     EXEC_FLAG = ''
+    
     lbl = ft.Text()
     hclbl = 'High Contrast'
     lclbl = 'Low Contrast'
@@ -118,7 +117,6 @@ def get_file(page: Page):
         EXEC_FLAG = 'low'
         page.update()
 
-    # Open directory dialog
     def get_directory_result(e: FilePickerResultEvent):
         directory_path.value = e.path if e.path else "Cancelled!"
         directory_path.update()
@@ -154,7 +152,6 @@ def get_file(page: Page):
     directory_path = Text()
     FILE_PATH = directory_path
 
-    # hide all dialogs in overlay
     page.overlay.extend([get_directory_dialog])
     
     page.add(
@@ -206,7 +203,6 @@ def get_file(page: Page):
         )
     )
     page.update()
-
+    return FILE_PATH, EXEC_FLAG
     
-
 flet.app(target=get_file)

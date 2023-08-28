@@ -13,16 +13,16 @@ else:
     device = 'cpu'
 
 cwd = os.getcwd()
-chkpt_file_name = 'sam_vit_h_4b8939.pth'
+chkpt_file_name = 'sam_vit_b_01ec64.pth'
 SAM_CHKPT_PATH=os.path.join(cwd, chkpt_file_name)
-# SAM_CHKPT_PATH = '/Users/aaditmahajan/Documents/Summer_Internship/sam_vit_h_4b8939.pth'
-model_type = 'vit_h'
+
+model_type = 'vit_b'
 sam = sam_model_registry[model_type](checkpoint=SAM_CHKPT_PATH)
 sam.to(device=device)
 
 init_mask_gen = SamAutomaticMaskGenerator(
     model=sam,
-    points_per_side = 12,
+    points_per_side = 8,
     pred_iou_thresh = 0.8,
     stability_score_thresh=0.8,
     crop_n_layers=0,
@@ -31,7 +31,7 @@ init_mask_gen = SamAutomaticMaskGenerator(
 )
 ind_cell_mask_gen = SamAutomaticMaskGenerator(
     model=sam,
-    points_per_side = 7,
+    points_per_side = 8,
     pred_iou_thresh = 0.88,
     stability_score_thresh=0.88,
     crop_n_layers=0,
@@ -44,7 +44,7 @@ def show_anns(anns):
         return
     sorted_anns = sorted(anns, key=(lambda x:x['area']), reverse=True)
     ax = plt.gca()
-    # ax.set_autoscale_on(False)
+    
     polygons = []
     color = []
     for ann in sorted_anns:

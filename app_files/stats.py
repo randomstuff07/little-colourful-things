@@ -1,5 +1,4 @@
 import cv2
-import matplotlib.pyplot as plt
 from centerfinder import *
 from seq_finder import *
 import numpy as np
@@ -82,21 +81,6 @@ def stats(cell_array):
         error_count[index] += 1
 
     categories = ['Normal', 'CCO', 'MI NDJ', 'MI RS', 'MI PSSC', 'MII PSSC', 'Others']
-
-    # # Create a bar graph
-    # plt.bar(categories, error_count, color='skyblue')
-
-    # # Adding labels and title
-    # plt.xlabel('Error type')
-    # plt.ylabel('Frequency')
-    # plt.title('Segregation error rates')
-
-    # # Rotating x-axis labels for better visibility
-    # plt.xticks(rotation=45, ha='right')
-
-    # # Display the graph
-    # plt.tight_layout()
-    # plt.show()
     return categories, error_count 
 
 
