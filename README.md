@@ -78,27 +78,31 @@ _centerfinder.py_ file methods:
    counts the no. of segregation errors which are captured in the output ROIs of segment anything model. 
    This uses the _findcenters_ method from centerfinder.py 
 
-*ui.py* file methods:
-
-1. fetch_stats(ct, ec)    
-   This is a driver function of the application which takes in the input of categories of errors ('ct') and the error counts themselves (ec). 
-   Note: These are assigned to global variables ('*cats*', '*err_cnt*') in the same function for convenience of data handover for target functions. Recommended to not use the same variable names. 
-
-2. disp_stats(page: ft.Page)    
-   This is the function which displays the stats, and takes the error count and categories as input from the global variables *cats* and *err_cnt*. This is coded using flet wrapper for Flutter in python. 
-
-3. get_file(page: ft.Page)    
-   This is the function for the startup page of the application. It takes in the file path for the raw images and passes it on to the methods which process the images further. 
+_exec.py_ methods:
+1.  get_main_window(page: ft.Page)    
+   This is the function for the startup page of the application. It takes in the file path for the raw images and passes it on to the methods which process the images further.
    This is also written using flet. 
+
+   Important dependent functions in the get_main_window function:    
+   a. def disp_stats(cats, err_cnt)      
+   This is the function which displays the stats, and takes the error count and categories as input from the global variables *cats* and *err_cnt*. This is coded using flet wrapper for Flutter in python.     
+   b. def chkdir(e):      
+   checks if the directory passed has valid files. Then changes state of main window.         
+   c. def write_config_settings(e):       
+   writes the file path and the contrast settings to be used to the 'config.json' file. (default contrast setting is 'low contrast')     
+   d. def open_readme(e):      
+   opens this README.md file in a text editor.               
+   
+2. classifier():
+   Takes all the inputs from the user and executes the workflow for the classification of the cells in to their respective types.
 
 SAM Mask Generator config:
 ---
 Following are the parameters for the segment anything automatic mask generator.
-***DO NOT CHANGE THESE***:
 
 init_mask_gen = SamAutomaticMaskGenerator(    
     model=sam,     
-    points_per_side = 12,      
+    points_per_side = 8,      
     pred_iou_thresh = 0.8,     
     stability_score_thresh=0.8,     
     crop_n_layers=0,      
@@ -110,7 +114,7 @@ this is the configuration for the constants for generating the masks initially f
 
 ind_cell_mask_gen = SamAutomaticMaskGenerator(     
     model=sam,     
-    points_per_side = 7,    
+    points_per_side = 8,    
     pred_iou_thresh = 0.88,    
     stability_score_thresh=0.88,    
     crop_n_layers=0,     
@@ -131,4 +135,9 @@ Low contrast images can be considered those with a lot of background noise/brigh
 
 1. Kirillov, Alexander & Mintun, Eric & Ravi, Nikhila & Mao, Hanzi & Rolland, Chloe & Gustafson, Laura & Xiao, Tete & Whitehead, Spencer & Berg, Alexander & Lo, Wan-Yen & Dollár, Piotr & Girshick, Ross. (2023). Segment Anything. 
 2. Bradski, G. & Kaehler, A., 2008. Learning OpenCV: Computer vision with the OpenCV library, "O&#x27;Reilly Media, Inc."
+
+## Link to downloading the checkpoint file for the Segment Anything model    
+Download here: https://dl.fbaipublicfiles.com/segment_anything/sam_vit_b_01ec64.pth     
+Save the file in app_files of the main repository.    
+***(Source: Segment Anything GitHub (https://github.com/facebookresearch/segment-anything))***
 
