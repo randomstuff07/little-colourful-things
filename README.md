@@ -1,6 +1,55 @@
 **Little Colourful Things** v1.0
 ---
-Description of functions defined in the py files in this folder. 
+## Overview:
+Little Colourful Tings is a Python application designed for the efficient analysis of fluorescent images of yeast cells. This application processes image data and provides comprehensive statistics to aid in a foresight into experiments. 
+
+### Key Features:
+
+Image Import: Easily import fluorescent yeast cell images in various formats, including TIFF, JPEG, and PNG.
+Automated Cell Detection: The tool automatically detects and isolates individual yeast cells within the images. It uses the Segment Anything Model to achieve this. 
+Statistical Analysis: Generate essential statistical metrics for each frame, showing the segregation assay error metrics for a batch of images. 
+User-Friendly Interface: The tool features an intuitive graphical user interface (GUI) that makes it accessible to both beginners and experienced users.
+### Installing/Running instructions:
+
+1. Clone the repository 
+2. Add the images to be processed to a file named dataset (kindly do not make subfolders in this folder)
+2. Open command prompt/terminal
+3. Enter 'cd your_file_path_to_the_repository and hit enter
+4. Run pip install -r config.txt
+5. Run 'python exec.py'
+
+### Dependencies:
+
+Python 3.x
+OpenCV for image processing
+NumPy for numerical operations
+Matplotlib for data visualization
+Segment Anything model for segmentation
+Flet for GUI
+
+### Installation:
+
+Clone or download the repository.
+Install the required dependencies using pip install -r config.txt.
+
+### Usage:    
+Run the program by using the command 'python exec.py'
+Follow the on-screen instructions to load and analyze your fluorescent yeast cell images.
+
+### License:
+This project is licensed under the Apache License Version 2.0 License. Feel free to use, modify, and distribute it in accordance with the terms of the license.
+
+### Authors:
+
+Aadit Mahajan 
+
+### Acknowledgements:
+A big thanks to Dr. Mridula Nambiar and MN Lab, IISER Pune for giving me this opportunity. I appreciate all the support that I recieved while completing this project and I hope that this project will aid research in the lab. 
+
+I also express my gratitude to my family and to all my friends for giving inputs to tackle the hurdles during the course of this project. Thanks a lot.
+
+---
+## Description of functions defined in the py files in this folder. 
 ---
 _centerfinder.py_ file methods:
 
@@ -78,7 +127,7 @@ _centerfinder.py_ file methods:
    counts the no. of segregation errors which are captured in the output ROIs of segment anything model. 
    This uses the _findcenters_ method from centerfinder.py 
 
-_exec.py_ methods:
+*exec.py* methods:
 1.  get_main_window(page: ft.Page)    
    This is the function for the startup page of the application. It takes in the file path for the raw images and passes it on to the methods which process the images further.
    This is also written using flet. 
@@ -110,7 +159,7 @@ init_mask_gen = SamAutomaticMaskGenerator(
     crop_n_points_downscale_factor=2       
 )
 
-this is the configuration for the constants for generating the masks initially for the whole frame. 
+This is the configuration for the constants for generating the masks initially for the whole frame. 
 
 ind_cell_mask_gen = SamAutomaticMaskGenerator(     
     model=sam,     
