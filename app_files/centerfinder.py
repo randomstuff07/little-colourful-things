@@ -63,16 +63,16 @@ def find_centers(image, spores):
 	markers = markers+1
 	# Now, mark the region of unknown with zero
 	markers[unknown==255] = 0
-	plt.subplot(1, 3, 2)
-	plt.imshow(markers)
-	plt.title('sure fg')
+	# plt.subplot(1, 3, 2)
+	# plt.imshow(markers)
+	# plt.title('sure fg')
 
 	markers = cv2.watershed(spores,markers)
 	spores[markers == -1] = [255,0,0]
-	plt.subplot(1, 3, 3)
-	plt.imshow(markers)
-	plt.title('watershed masks')
-	plt.show()
+	# plt.subplot(1, 3, 3)
+	# plt.imshow(markers)
+	# plt.title('watershed masks')
+	# plt.show()
 	
 	mask_center_coords = []
 	for marker in np.unique(markers):

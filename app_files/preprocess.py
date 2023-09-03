@@ -14,30 +14,30 @@ def load_images(IMG_FILE_PATH):
 
 def preprocess_image_low_cont(image):
     torch.set_default_dtype(torch.float32)
-    plt.imshow(image)
+    # plt.imshow(image)
     grayscale = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     edges = cv2.Canny(grayscale,150,25)
     # edges = cv2.erode(edges, kernel = cv2.getStructuringElement(cv2.MORPH_ERODE, (3, 3)), iterations=1)
 
-    plt.subplot(121),plt.imshow(image,cmap = 'gray')
-    plt.title('Original Image'), plt.xticks([]), plt.yticks([])
-    plt.subplot(122),plt.imshow(edges,cmap = 'gray')
-    plt.title('Edge Image'), plt.xticks([]), plt.yticks([])
+    # plt.subplot(121),plt.imshow(image,cmap = 'gray')
+    # plt.title('Original Image'), plt.xticks([]), plt.yticks([])
+    # plt.subplot(122),plt.imshow(edges,cmap = 'gray')
+    # plt.title('Edge Image'), plt.xticks([]), plt.yticks([])
 
-    plt.show()
+    # plt.show()
     edges_3d_array = np.zeros((1080, 1080, 3))
     for i in range(3):
         edges_3d_array[:, :, i] = edges
 
     edges_3d_array = cv2.GaussianBlur(edges_3d_array, (3, 3), 0)
-    plt.imshow(edges_3d_array)
+    # plt.imshow(edges_3d_array)
 
-    plt.show()
+    # plt.show()
     return edges_3d_array
 
 def preprocess_image_high_cont(image):
 
-    plt.imshow(image)
+    # plt.imshow(image)
 
     hsv = cv2.cvtColor(image, cv2.COLOR_BGR2HSV)
     # first isolate blue spores

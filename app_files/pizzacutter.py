@@ -5,9 +5,7 @@ import os
 
 from segment_anything import sam_model_registry, SamAutomaticMaskGenerator
 
-if torch.backends.mps.is_available():
-    device = 'mps'
-elif torch.cuda.is_available():
+if torch.cuda.is_available():
     device = 'cuda'
 else:
     device = 'cpu'
@@ -62,14 +60,14 @@ def generate_mask(image, generator):
 
 def show_mask(image, masks):
     print('No of detected cells = ', len(masks))
-    plt.figure(figsize=(8, 5))
-    plt.subplot(121)
-    plt.axis('off')
-    plt.subplot(122)
-    plt.imshow(image)
-    show_anns(masks)
-    plt.axis('off')
-    plt.show()
+    # plt.figure(figsize=(8, 5))
+    # plt.subplot(121)
+    # plt.axis('off')
+    # plt.subplot(122)
+    # plt.imshow(image)
+    # show_anns(masks)
+    # plt.axis('off')
+    # plt.show()
 
 def separate_clusters(masks, raw):
 
@@ -115,7 +113,7 @@ def process_cluster(clusters):
     for cluster in clusters:
         print(cluster.shape)
         mask_cluster = generate_mask(np.asarray(cluster, dtype='uint8'), ind_cell_mask_gen)
-        show_mask(cluster, mask_cluster)
+        # show_mask(cluster, mask_cluster)
         for j in range(len(mask_cluster)):
             x=int(mask_cluster[j]['bbox'][0])
             y=int(mask_cluster[j]['bbox'][1])

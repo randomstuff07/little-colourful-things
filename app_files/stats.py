@@ -19,7 +19,7 @@ def stats(cell_array):
 
     for cell in cell_array:
 
-        image = cell_array[0]
+        image = cell
         image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
         spores_red = red_spores(image)
@@ -38,7 +38,7 @@ def stats(cell_array):
         # plt.show()
 
         spores = spores_red+spores_pink+spores_blue
-        spgray = cv2.cvtColor(spores, cv2.COLOR_BGR2GRAY)
+        # spgray = cv2.cvtColor(spores, cv2.COLOR_BGR2GRAY)
 
         # print('RED MASKS: ')
         red_centers = find_centers(spores_red, spores)
@@ -56,12 +56,9 @@ def stats(cell_array):
         # frame_center = ((frame_dims[1]-1)/2, (frame_dims[0]-1)/2)
         # print(frame_center)
 
-        rs = process_centers(red_centers, frame_dims)
-        ps = process_centers(pink_centers, frame_dims)
-        bs = process_centers(blue_centers, frame_dims)
-
         seq_str, seq_array, scores = init_seq(frame_dims, red_centers, pink_centers, blue_centers)
-        sorted_array ,sorted_str = sort_seq(seq_str, scores, seq_array)
+
+        sorted_array ,sorted_str = sort_seq(scores, seq_array, img_dims=frame_dims)
         # print('Sequence of spores: ', sorted_str)
 
         seg_er_type = find_type(sorted_array, sorted_str)
