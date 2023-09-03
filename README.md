@@ -13,14 +13,16 @@ User-Friendly Interface: The tool features an intuitive graphical user interface
 
 1. Clone the repository 
 2. Add the images to be processed to a file named dataset (kindly do not make subfolders in this folder)
-2. Open command prompt/terminal
-3. Enter 'cd your_file_path_to_the_repository and hit enter
-4. Run pip install -r config.txt
-5. Run 'python exec.py'
+3. Download the checkpoints file and place it in the app_files folder of the repo. (Cannot place this file in the repository as it is too large)
+4. Open command prompt/terminal
+5. Enter 'cd your_file_path_to_the_repository and hit enter
+6. Run pip install -r config.txt
+7. Run 'python exec.py'
 
 ### Dependencies:
 
 Python 3.x
+SAM ViT-B checkpoints (file link: https://dl.fbaipublicfiles.com/segment_anything/sam_vit_b_01ec64.pth)
 OpenCV for image processing
 NumPy for numerical operations
 Matplotlib for data visualization
