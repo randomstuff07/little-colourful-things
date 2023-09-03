@@ -5,10 +5,10 @@ Little Colourful Tings is a Python application designed for the efficient analys
 
 ### Key Features:
 
-Image Import: Easily import fluorescent yeast cell images in various formats, including TIFF, JPEG, and PNG.
-Automated Cell Detection: The tool automatically detects and isolates individual yeast cells within the images. It uses the Segment Anything Model to achieve this. 
-Statistical Analysis: Generate essential statistical metrics for each frame, showing the segregation assay error metrics for a batch of images. 
-User-Friendly Interface: The tool features an intuitive graphical user interface (GUI) that makes it accessible to both beginners and experienced users.
+Image Import: Easily import fluorescent yeast cell images in various formats, including TIFF, JPEG, and PNG.    
+Automated Cell Detection: The tool automatically detects and isolates individual yeast cells within the images. It uses the Segment Anything Model to achieve this.     
+Statistical Analysis: Generate essential statistical metrics for each frame, showing the segregation assay error metrics for a batch of images.     
+User-Friendly Interface: The tool features an intuitive graphical user interface (GUI) that makes it accessible to both beginners and experienced users.    
 ### Installing/Running instructions:
 
 1. Clone the repository 
