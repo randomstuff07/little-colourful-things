@@ -1,7 +1,7 @@
 **Little Colourful Things** v1.0
 ---
 ## Overview:
-Little Colourful Tings is a Python application designed for the efficient analysis of fluorescent images of yeast cells. This application processes image data and provides comprehensive statistics to aid in a foresight into experiments. 
+Little Colourful Things is a Python application designed for the efficient analysis of fluorescent images of yeast cells. This application processes image data and provides comprehensive statistics to aid in a foresight into experiments. 
 
 ### Key Features:
 
